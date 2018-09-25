@@ -1,0 +1,84 @@
+MPLINK 5.08, LINKER
+Linker Map File - Created Mon Aug  6 23:46:37 2018
+
+                                 Section Info
+                  Section       Type    Address   Location Size(Bytes)
+                ---------  ---------  ---------  ---------  ---------
+                   .org_0       code   0x000000    program   0x000000
+                   .org_1       code   0x000000    program   0x000002
+                   .org_2       code   0x000004    program   0x0000ee
+.config_2007_/HOME/ALEXANDRE/MPLABXPROJECTS/A       code   0x002007    program   0x000002
+
+
+
+                              Program Memory Usage 
+                               Start         End      
+                           ---------   ---------      
+                            0x000000    0x000000      
+                            0x000004    0x00007a      
+                            0x002007    0x002007      
+            121 out of 1158 program addresses used, program memory utilization is 10%
+
+
+
+                              Symbols - Sorted by Name
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                     BIT1   0x000061    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                     BIT2   0x000064    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                     BIT3   0x000067    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                    BIT_0   0x000031    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                    BIT_1   0x000034    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                 CLEARGP0   0x00006c    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                 CLEARGP1   0x000070    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                 CLEARGP2   0x000074    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                 CLEARGP4   0x000078    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                     FORA   0x000037    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                   INICIO   0x00000d    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                      LED   0x000047    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                   LOOP_1   0x000025    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                   LOOP_2   0x00004a    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                     MAIN   0x00001a    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                  SAI_INT   0x000007    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                   SETGP0   0x00006a    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                   SETGP1   0x00006e    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                   SETGP2   0x000072    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                   SETGP4   0x000076    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+            SET_DISPLAY_1   0x000051    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+            SET_DISPLAY_2   0x00005c    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                START_BIT   0x00001f    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+               SUBROTINA1   0x00000c    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                TECLA_BIT   0x00002a    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+
+
+
+                              Symbols - Sorted by Address
+                     Name    Address   Location    Storage File                     
+                ---------  ---------  ---------  --------- ---------                
+                  SAI_INT   0x000007    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+               SUBROTINA1   0x00000c    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                   INICIO   0x00000d    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                     MAIN   0x00001a    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                START_BIT   0x00001f    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                   LOOP_1   0x000025    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                TECLA_BIT   0x00002a    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                    BIT_0   0x000031    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                    BIT_1   0x000034    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                     FORA   0x000037    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                      LED   0x000047    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                   LOOP_2   0x00004a    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+            SET_DISPLAY_1   0x000051    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+            SET_DISPLAY_2   0x00005c    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                     BIT1   0x000061    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                     BIT2   0x000064    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                     BIT3   0x000067    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                   SETGP0   0x00006a    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                 CLEARGP0   0x00006c    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                   SETGP1   0x00006e    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                 CLEARGP1   0x000070    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                   SETGP2   0x000072    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                 CLEARGP2   0x000074    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                   SETGP4   0x000076    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+                 CLEARGP4   0x000078    program     static /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM
+
+

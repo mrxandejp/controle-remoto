@@ -1,0 +1,614 @@
+MPASM 5.77  /HOME/ALEXANDRE/MPLABXPROJECTS/A   8-6-2018  20:46:36         PAGE  1
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00001 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00002 ;*              MODIFICA��ES PARA USO COM 12F675                   *
+                      00003 ;*                FEITAS PELO PROF. MARDSON                        *
+                      00004 ;*                    FEVEREIRO DE 2016                            *
+                      00005 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00006 
+                      00007 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00008 ;*                       NOME DO PROJETO                           *
+                      00009 ;*                           CLIENTE                               *
+                      00010 ;*         DESENVOLVIDO PELA MOSAICO ENGENHARIA E CONSULTORIA      *
+                      00011 ;*   VERS�O: 1.0                           DATA: 17/06/03          *
+                      00012 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00013 ;*                     DESCRI��O DO ARQUIVO                        *
+                      00014 ;*-----------------------------------------------------------------*
+                      00015 ;*   MODELO PARA O PIC 12F675                                      *
+                      00016 ;*                                                                 *
+                      00017 ;*                                                                 *
+                      00018 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00019 
+                      00020 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00021 ;*                     ARQUIVOS DE DEFINI��ES                      *
+                      00022 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00023 #INCLUDE <p12f675.inc>  ;ARQUIVO PADR�O MICROCHIP PARA 12F675
+                      00001         LIST
+                      00002 
+                      00003 ;==========================================================================
+                      00004 ; Build date : Nov 22 2017
+                      00005 ;  MPASM PIC12F675 processor include
+                      00006 ; 
+                      00007 ;  (c) Copyright 1999-2017 Microchip Technology, All rights reserved
+                      00008 ;==========================================================================
+                      00009 
+                      00367         LIST
+                      00024 
+2007   3F84           00025         __CONFIG _BODEN_OFF & _CP_OFF & _PWRTE_ON & _WDT_OFF & _MCLRE_OFF & _INTRC_OSC_NOCLKOUT
+                      00026 
+                      00027 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00028 ;*                    PAGINA��O DE MEM�RIA                         *
+                      00029 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00030 ;DEFINI��O DE COMANDOS DE USU�RIO PARA ALTERA��O DA P�GINA DE MEM�RIA
+                      00031 #DEFINE BANK0   BCF STATUS,RP0  ;SETA BANK 0 DE MEM�RIA
+                      00032 #DEFINE BANK1   BSF STATUS,RP0  ;SETA BANK 1 DE MAM�RIA
+                      00033 
+                      00034 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00035 ;*                         VARI�VEIS                               *
+                      00036 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00037 ; DEFINI��O DOS NOMES E ENDERE�OS DE TODAS AS VARI�VEIS UTILIZADAS 
+                      00038 ; PELO SISTEMA
+                      00039 
+                      00040         CBLOCK  0x20    ;ENDERE�O INICIAL DA MEM�RIA DE
+                      00041                                         ;USU�RIO
+  00000020            00042                 W_TEMP          ;REGISTRADORES TEMPOR�RIOS PARA USO
+  00000021            00043                 STATUS_TEMP     ;JUNTO �S INTERRUP��ES
+MPASM 5.77  /HOME/ALEXANDRE/MPLABXPROJECTS/A   8-6-2018  20:46:36         PAGE  2
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+  00000022            00044                 CONT            ;UMA VARI�VEL AUXILIAR, PARA CONTAGENS 
+  00000023            00045                 DISPLAY         ;VARIAVEL USADA PARA RECEBER OS BITS DO SINAL
+  00000024            00046                 DISPLAY_AUX     ;VARIAVEL PARA CONVERTER OS BITS DO SINAL DE ENTRADA
+                      00047                                 ;PARA OS BITS EQUIVALENTE AO SEU N�MERO, POR EXEMPLO
+                      00048                                 ;A TECLA 1 EQUIVALE AOS BITS 0000000 DO SINAL
+                      00049                                 ;MAS SEU NUMERO EM BIN�RIO � 0000001
+                      00050                 
+                      00051                 ;NOVAS VARI�VEIS
+                      00052 
+                      00053         ENDC                    ;FIM DO BLOCO DE MEM�RIA
+                      00054 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00055 ;*                        FLAGS INTERNOS                           *
+                      00056 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00057 ; DEFINI��O DE TODOS OS FLAGS UTILIZADOS PELO SISTEMA
+                      00058 
+                      00059 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00060 ;*                         CONSTANTES                              *
+                      00061 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00062 ; DEFINI��O DE TODAS AS CONSTANTES UTILIZADAS PELO SISTEMA
+                      00063 
+                      00064 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00065 ;*                           ENTRADAS                              *
+                      00066 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00067 ; DEFINI��O DE TODOS OS PINOS QUE SER�O UTILIZADOS COMO ENTRADA
+                      00068 ; RECOMENDAMOS TAMB�M COMENTAR O SIGNIFICADO DE SEUS ESTADOS (0 E 1)
+                      00069 
+                      00070 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00071 ;*                           SA�DAS                                *
+                      00072 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00073 ; DEFINI��O DE TODOS OS PINOS QUE SER�O UTILIZADOS COMO SA�DA
+                      00074 ; RECOMENDAMOS TAMB�M COMENTAR O SIGNIFICADO DE SEUS ESTADOS (0 E 1)
+                      00075 
+                      00076 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00077 ;*                       VETOR DE RESET                            *
+                      00078 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00079 
+0000                  00080         ORG     0x00                    ;ENDERE�O INICIAL DE PROCESSAMENTO
+0000   280D           00081         GOTO    INICIO
+                      00082         
+                      00083 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00084 ;*                    IN�CIO DA INTERRUP��O                        *
+                      00085 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00086 ; ENDERE�O DE DESVIO DAS INTERRUP��ES. A PRIMEIRA TAREFA � SALVAR OS
+                      00087 ; VALORES DE "W" E "STATUS" PARA RECUPERA��O FUTURA
+                      00088 
+0004                  00089         ORG     0x04                    ;ENDERE�O INICIAL DA INTERRUP��O
+0004   00A0           00090         MOVWF   W_TEMP          ;COPIA W PARA W_TEMP
+0005   0E03           00091         SWAPF   STATUS,W
+0006   00A1           00092         MOVWF   STATUS_TEMP     ;COPIA STATUS PARA STATUS_TEMP
+                      00093 
+                      00094 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00095 ;*                    ROTINA DE INTERRUP��O                        *
+                      00096 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+MPASM 5.77  /HOME/ALEXANDRE/MPLABXPROJECTS/A   8-6-2018  20:46:36         PAGE  3
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00097 ; AQUI SER� ESCRITA AS ROTINAS DE RECONHECIMENTO E TRATAMENTO DAS
+                      00098 ; INTERRUP��ES
+                      00099 
+                      00100 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00101 ;*                 ROTINA DE SA�DA DA INTERRUP��O                  *
+                      00102 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00103 ; OS VALORES DE "W" E "STATUS" DEVEM SER RECUPERADOS ANTES DE 
+                      00104 ; RETORNAR DA INTERRUP��O
+                      00105 
+0007                  00106 SAI_INT
+0007   0E21           00107         SWAPF   STATUS_TEMP,W
+0008   0083           00108         MOVWF   STATUS          ;MOVE STATUS_TEMP PARA STATUS
+0009   0EA0           00109         SWAPF   W_TEMP,F
+000A   0E20           00110         SWAPF   W_TEMP,W        ;MOVE W_TEMP PARA W
+000B   0009           00111         RETFIE
+                      00112 
+                      00113 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00114 ;*                       ROTINAS E SUBROTINAS                      *
+                      00115 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00116 ; CADA ROTINA OU SUBROTINA DEVE POSSUIR A DESCRI��O DE FUNCIONAMENTO
+                      00117 ; E UM NOME COERENTE �S SUAS FUN��ES.
+                      00118 
+000C                  00119 SUBROTINA1
+                      00120 
+                      00121         ;CORPO DA ROTINA
+                      00122 
+000C   0008           00123         RETURN
+                      00124 
+                      00125 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00126 ;*                     INICIO DO PROGRAMA                          *
+                      00127 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00128         
+000D                  00129 INICIO
+000D   1683           00130         BANK1                           ;ALTERA PARA O BANCO 1
+000E   3000           00131         MOVLW   B'00000000'     ;CONFIGURA TODAS AS PORTAS DO GPIO (PINOS)
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+000F   0085           00132         MOVWF   TRISIO          ;COMO SAIDAS
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0010   019F           00133         CLRF    ANSEL           ;DEFINE PORTAS COMO Digital I/O
+0011   3003           00134         MOVLW   B'00000011'     ;DEFININDO O TEMPO EM 1:16
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0012   0081           00135         MOVWF   OPTION_REG      ;DEFINE OPCOES DE OPERACAO
+0013   3000           00136         MOVLW   B'00000000'
+0014   008B           00137         MOVWF   INTCON          ;DEFINE OPCOES DE INTERRUPCOES
+0015   23FF           00138         CALL 0X3FF
+Message[302]: Register in operand not in bank 0.  Ensure that bank bits are correct.
+0016   0090           00139         MOVWF OSCCAL
+0017   1283           00140         BANK0                           ;RETORNA PARA O BANCO
+0018   3007           00141         MOVLW   B'00000111'
+0019   0099           00142         MOVWF   CMCON           ;DEFINE O MODO DE OPERA��O DO COMPARADOR ANAL�GICO
+                      00143 
+                      00144 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00145 ;*                     INICIALIZA��O DAS VARI�VEIS                 *
+MPASM 5.77  /HOME/ALEXANDRE/MPLABXPROJECTS/A   8-6-2018  20:46:36         PAGE  4
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+                      00146 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00147 
+                      00148 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00149 ;*                     ROTINA PRINCIPAL                            *
+                      00150 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+001A                  00151 MAIN
+                      00152         ;CORPO DA ROTINA PRINCIPAL.
+                      00153         
+                      00154         ;UTILIZO AS PORTAS GP0,GP1,GP2,GP3,GP4 E GP5
+                      00155         ;GP0, GP1, GP2 E GP4 SERVEM PARA SETAR O DISPLAY
+                      00156         ;GP3 � MINHA ENTRADA DO SINAL
+                      00157         ;GP5 � UTILIZADO PARA SET O LED
+001A   1985           00158         BTFSC   GPIO,GP3    ;FICO CONFERINDO SE CHEGOU ALGUM SINAL NA ENTRADA
+001B   281A           00159         GOTO    MAIN        ;SE N�O CHEGOU NADA FICO NESSE LOOP SEMPRE CONFERINDO
+001C   3072           00160         MOVLW   .114        ;SE ENTROU SET O TMR0 PARA INICIAR EM 107, POIS SE 
+001D   0081           00161         MOVWF   TMR0        ;ESTOUROU O TEMPO, QUER DIZER QUE CHEGOU UM START BIT
+001E   110B           00162         BCF     INTCON, T0IF    ;LIMPO O T0IF
+001F                  00163 START_BIT       
+001F   1D85           00164         BTFSS   GPIO,GP3    ;FICO CONFERINDO SE O SINAL ACABOU
+0020   281F           00165         GOTO    START_BIT   ;SE N�O ACABOU, FICAR� NESSE LOOP AT� ACABAR
+0021   1D0B           00166         BTFSS   INTCON,T0IF ;SE ACABOU, VEJO SE O TEMPO ESTOUROU, SE N�O ESTOUROU
+0022   281A           00167         GOTO    MAIN        ;� PORQUE N�O CHEGOU UM START BIT
+0023   3006           00168         MOVLW   .6          ;SE CHEGOU UM STARTBIT, UTILIZO O CONT COMO AUXILIAR
+0024   00A2           00169         MOVWF   CONT        ;PARA LIMITAR OS BITS QUE VOU ARMAZENAR 
+0025                  00170 LOOP_1  
+0025   1985           00171         BTFSC   GPIO,GP3    ;FICO CONFERINDO O SINAL AT� O SINAL CHEGAR
+0026   2825           00172         GOTO    LOOP_1
+0027   30BB           00173         MOVLW   .187        ;SE O SINAL CHEGOU, SET O TEMPO EM 181
+0028   0081           00174         MOVWF   TMR0        ;PARA VER SE O BIT � 0 OU 1
+0029   110B           00175         BCF     INTCON,T0IF ;LIMPO O T0IF
+002A                  00176 TECLA_BIT       
+002A   1D85           00177         BTFSS   GPIO,GP3    ;CONFIRO AT� O SINAL ACABAR
+002B   282A           00178         GOTO    TECLA_BIT
+002C   30E0           00179         MOVLW   .224        ;SE ELE ACABAR, EU FA�O UMA COMPARA��O PARA VER
+Message[305]: Using default destination of 1 (file).
+002D   0281           00180         SUBWF   TMR0        ;SE O TEMPO FOI DE 600 OU 1200
+002E   1C03           00181         BTFSS   STATUS,C
+002F   2831           00182         GOTO    BIT_0       ;SE O SINAL FOR DE 600 SET O BIT EM 0
+0030   2834           00183         GOTO    BIT_1       ;SE O SINAL FOR DE 1200 SET O BIT EM 1
+0031                  00184 BIT_0
+0031   1323           00185         BCF     DISPLAY,6   ;SET O BIT MAIS SIGNFICATIVO, E ROTACIONO PARA
+Message[305]: Using default destination of 1 (file).
+0032   0CA3           00186         RRF     DISPLAY     ;ELE IR AT� O MENOS SIGNIFICATIVO 
+0033   2837           00187         GOTO    FORA
+0034                  00188 BIT_1
+0034   1723           00189         BSF     DISPLAY,6   ;UTILIZO A MESMA ESTRAT�GIA PARA O BIT 1
+Message[305]: Using default destination of 1 (file).
+0035   0CA3           00190         RRF     DISPLAY
+0036   2837           00191         GOTO    FORA
+0037                  00192 FORA
+0037   03A2           00193         DECF    CONT,F      ;CONFIRO SE JA PREENCHI TODOS OS BITS
+0038   1D03           00194         BTFSS   STATUS,Z    ;SE N�O, EU VOLTO PARA O LOOP_1 PARA COMPLETAR OS BITS
+0039   2825           00195         GOTO    LOOP_1
+MPASM 5.77  /HOME/ALEXANDRE/MPLABXPROJECTS/A   8-6-2018  20:46:36         PAGE  5
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+003A   0823           00196         MOVFW   DISPLAY     ;SE SIM, CONFIRO SE RECEBI UMA TECLA MENOR QUE 10
+003B   00A4           00197         MOVWF   DISPLAY_AUX ;SE SIM, EU COLOCO NO DISPLAY QUAL FOI A TECLA
+003C   300A           00198         MOVLW   .10         ;QUE FOI PRESSIONADA
+Message[305]: Using default destination of 1 (file).
+003D   02A4           00199         SUBWF   DISPLAY_AUX ;SE N�O, EU COLOCO O LED PARA ACENDER POR 100ms
+003E   1C03           00200         BTFSS   STATUS,C
+003F   2851           00201         GOTO    SET_DISPLAY_1
+0040   1405           00202         BSF     GPIO,GP0    ;APAGO O DISPLAY SET AS SAIDAS EM 1
+0041   1485           00203         BSF     GPIO,GP1    
+0042   1505           00204         BSF     GPIO,GP2
+0043   1605           00205         BSF     GPIO,GP4
+0044   3019           00206         MOVLW   .25
+0045   00A2           00207         MOVWF   CONT
+0046   1685           00208         BSF     GPIO,GP5    ;LIGO O LED, FICO CONFERINDO SE ELE ATINGIU O TEMPO
+0047                  00209 LED                         ;UTILIZANDO UM CONTADOR DE 25, POIS DO JEITO QUE SETEI
+0047   3006           00210         MOVLW   .6          ;O TMR0 ELE N�O PASSAR� DE 4ms, 
+0048   0081           00211         MOVWF   TMR0
+0049   110B           00212         BCF     INTCON,T0IF
+004A                  00213 LOOP_2  
+004A   1D0B           00214         BTFSS   INTCON,T0IF
+004B   284A           00215         GOTO    LOOP_2      
+004C   03A2           00216         DECF    CONT,F      ;QUANDO O CONT CHEGAR A 0, � PQ ATINGIU O TEMPO 
+004D   1D03           00217         BTFSS   STATUS,Z    ;E POSSO DESLIGAR O LED
+004E   2847           00218         GOTO    LED
+004F   1285           00219         BCF     GPIO,GP5    ;DESLIGO O LED AP�S 100ms
+0050   281A           00220         GOTO    MAIN    
+0051                  00221 SET_DISPLAY_1   
+0051   0823           00222         MOVFW   DISPLAY     
+0052   00A4           00223         MOVWF   DISPLAY_AUX ;CONFIRO SE O SINAL QUE CHEGOU FOI 0001001
+0053   3009           00224         MOVLW   .9          ;POIS ESSE SINAL EQUIVALE A TECLA 0
+Message[305]: Using default destination of 1 (file).
+0054   02A4           00225         SUBWF   DISPLAY_AUX ;SE FOR ISSO QUE CHEGOU, EU SET AS SAIDAS EM 0000
+0055   1D03           00226         BTFSS   STATUS,Z    ;PARA O DISPLAY MOSTRAR O NUMERO 0
+0056   285C           00227         GOTO    SET_DISPLAY_2   ;SE N�O FOI ESSE SINAL, EU VOU PARA O SET_DISPLAY_2
+0057   1005           00228         BCF     GPIO,GP0
+0058   1085           00229         BCF     GPIO,GP1
+0059   1105           00230         BCF     GPIO,GP2
+005A   1205           00231         BCF     GPIO,GP4
+005B   281A           00232         GOTO    MAIN        ;VOLTO PARA O INICIO
+005C                  00233 SET_DISPLAY_2
+005C   3001           00234         MOVLW   .1          ;SOMO O SINAL COM 1, PARA COLOCAR NO DISPLAY O VALOR 
+005D   07A3           00235         ADDWF   DISPLAY,F   ;CERTO DA TECLA
+005E   1C23           00236         BTFSS   DISPLAY,0   ;CONFIRO O BIT NA POSI��O 0, SE FOR 1 EU SETA O GP0 
+005F   286C           00237         GOTO    CLEARGP0           ;SE FOR 0, DOU UM CLEAR NO GP0
+0060   286A           00238         GOTO    SETGP0     ;E ESSA REGRA SERVE PARA OS BITS SEGUNITES
+0061                  00239 BIT1
+0061   1CA3           00240         BTFSS   DISPLAY,1
+0062   2870           00241         GOTO    CLEARGP1
+0063   286E           00242         GOTO    SETGP1
+0064                  00243 BIT2
+0064   1D23           00244         BTFSS   DISPLAY,2
+0065   2874           00245         GOTO    CLEARGP2
+0066   2872           00246         GOTO    SETGP2
+MPASM 5.77  /HOME/ALEXANDRE/MPLABXPROJECTS/A   8-6-2018  20:46:36         PAGE  6
+
+
+LOC  OBJECT CODE     LINE SOURCE TEXT
+  VALUE
+
+0067                  00247 BIT3
+0067   1DA3           00248         BTFSS   DISPLAY,3
+0068   2878           00249         GOTO    CLEARGP4
+0069   2876           00250         GOTO    SETGP4
+                      00251         
+                      00252 ;NESSA PARTE SET OU CLEAR OS GPIO, FORMANDO A SAIDA EQUIVALENTE AO NUMERO       
+                      00253 ;SE O AUXILIAR ESTIVER 1001, AS SAIDAS GP0=1 GP1=0 GP2=0 GP4=1
+006A                  00254 SETGP0
+006A   1405           00255         BSF     GPIO,GP0 
+006B   2861           00256         GOTO    BIT1
+006C                  00257 CLEARGP0        
+006C   1005           00258         BCF     GPIO,GP0
+006D   2861           00259         GOTO    BIT1
+006E                  00260 SETGP1  
+006E   1485           00261         BSF     GPIO,GP1
+006F   2864           00262         GOTO    BIT2
+0070                  00263 CLEARGP1        
+0070   1085           00264         BCF     GPIO,GP1
+0071   2864           00265         GOTO    BIT2
+0072                  00266 SETGP2
+0072   1505           00267         BSF     GPIO,GP2
+0073   2867           00268         GOTO    BIT3
+0074                  00269 CLEARGP2
+0074   1105           00270         BCF     GPIO,GP2
+0075   2867           00271         GOTO    BIT3
+0076                  00272 SETGP4
+0076   1605           00273         BSF     GPIO,GP4
+0077   281A           00274         GOTO    MAIN 
+0078                  00275 CLEARGP4        
+0078   1205           00276         BCF     GPIO,GP4
+0079   281A           00277         GOTO    MAIN
+                      00278         
+                      00279         
+007A   281A           00280         GOTO MAIN
+                      00281 
+                      00282 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00283 ;*                       FIM DO PROGRAMA                           *
+                      00284 ;* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+                      00285 
+                      00286         END
+MPASM 5.77  /HOME/ALEXANDRE/MPLABXPROJECTS/A   8-6-2018  20:46:36         PAGE  7
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+ADCON0                            0000001F
+ADCS0                             00000004
+ADCS1                             00000005
+ADCS2                             00000006
+ADFM                              00000007
+ADIE                              00000006
+ADIF                              00000006
+ADON                              00000000
+ADRESH                            0000001E
+ADRESL                            0000009E
+ANS0                              00000000
+ANS1                              00000001
+ANS2                              00000002
+ANS3                              00000003
+ANSEL                             0000009F
+BANK0                             BCF STATUS,RP0
+BANK1                             BSF STATUS,RP0
+BIT1                              00000061
+BIT2                              00000064
+BIT3                              00000067
+BIT_0                             00000031
+BIT_1                             00000034
+C                                 00000000
+CAL0                              00000002
+CAL1                              00000003
+CAL2                              00000004
+CAL3                              00000005
+CAL4                              00000006
+CAL5                              00000007
+CHS0                              00000002
+CHS1                              00000003
+CINV                              00000004
+CIS                               00000003
+CLEARGP0                          0000006C
+CLEARGP1                          00000070
+CLEARGP2                          00000074
+CLEARGP4                          00000078
+CM0                               00000000
+CM1                               00000001
+CM2                               00000002
+CMCON                             00000019
+CMIE                              00000003
+CMIF                              00000003
+CONT                              00000022
+COUT                              00000006
+DC                                00000001
+DISPLAY                           00000023
+DISPLAY_AUX                       00000024
+EEADR                             0000009B
+EECON1                            0000009C
+EECON2                            0000009D
+EEDAT                             0000009A
+EEDATA                            0000009A
+MPASM 5.77  /HOME/ALEXANDRE/MPLABXPROJECTS/A   8-6-2018  20:46:36         PAGE  8
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+EEIE                              00000007
+EEIF                              00000007
+F                                 00000001
+FORA                              00000037
+FSR                               00000004
+GIE                               00000007
+GO                                00000001
+GO_DONE                           00000001
+GO_NOT_DONE                       00000001
+GP0                               00000000
+GP1                               00000001
+GP2                               00000002
+GP3                               00000003
+GP4                               00000004
+GP5                               00000005
+GPIE                              00000003
+GPIF                              00000000
+GPIO                              00000005
+GPIO0                             00000000
+GPIO1                             00000001
+GPIO2                             00000002
+GPIO3                             00000003
+GPIO4                             00000004
+GPIO5                             00000005
+INDF                              00000000
+INICIO                            0000000D
+INTCON                            0000000B
+INTE                              00000004
+INTEDG                            00000006
+INTF                              00000001
+IOC                               00000096
+IOC0                              00000000
+IOC1                              00000001
+IOC2                              00000002
+IOC3                              00000003
+IOC4                              00000004
+IOC5                              00000005
+IOCB                              00000096
+IOCB0                             00000000
+IOCB1                             00000001
+IOCB2                             00000002
+IOCB3                             00000003
+IOCB4                             00000004
+IOCB5                             00000005
+IRP                               00000007
+LED                               00000047
+LOOP_1                            00000025
+LOOP_2                            0000004A
+MAIN                              0000001A
+NOT_BOD                           00000000
+NOT_BOR                           00000000
+NOT_DONE                          00000001
+NOT_GPPU                          00000007
+MPASM 5.77  /HOME/ALEXANDRE/MPLABXPROJECTS/A   8-6-2018  20:46:36         PAGE  9
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+NOT_PD                            00000003
+NOT_POR                           00000001
+NOT_T1SYNC                        00000002
+NOT_TO                            00000004
+OPTION_REG                        00000081
+OSCCAL                            00000090
+PCL                               00000002
+PCLATH                            0000000A
+PCON                              0000008E
+PEIE                              00000006
+PIE1                              0000008C
+PIR1                              0000000C
+PS0                               00000000
+PS1                               00000001
+PS2                               00000002
+PSA                               00000003
+RD                                00000000
+RP0                               00000005
+RP1                               00000006
+SAI_INT                           00000007
+SETGP0                            0000006A
+SETGP1                            0000006E
+SETGP2                            00000072
+SETGP4                            00000076
+SET_DISPLAY_1                     00000051
+SET_DISPLAY_2                     0000005C
+START_BIT                         0000001F
+STATUS                            00000003
+STATUS_TEMP                       00000021
+SUBROTINA1                        0000000C
+T0CS                              00000005
+T0IE                              00000005
+T0IF                              00000002
+T0SE                              00000004
+T1CKPS0                           00000004
+T1CKPS1                           00000005
+T1CON                             00000010
+T1IE                              00000000
+T1IF                              00000000
+T1OSCEN                           00000003
+TECLA_BIT                         0000002A
+TMR0                              00000001
+TMR0IE                            00000005
+TMR0IF                            00000002
+TMR1                              0000000E
+TMR1CS                            00000001
+TMR1GE                            00000006
+TMR1H                             0000000F
+TMR1IE                            00000000
+TMR1IF                            00000000
+TMR1L                             0000000E
+TMR1ON                            00000000
+TRISIO                            00000085
+MPASM 5.77  /HOME/ALEXANDRE/MPLABXPROJECTS/A   8-6-2018  20:46:36         PAGE 10
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+TRISIO0                           00000000
+TRISIO1                           00000001
+TRISIO2                           00000002
+TRISIO3                           00000003
+TRISIO4                           00000004
+TRISIO5                           00000005
+VCFG                              00000006
+VR0                               00000000
+VR1                               00000001
+VR2                               00000002
+VR3                               00000003
+VRCON                             00000099
+VREN                              00000007
+VRR                               00000005
+W                                 00000000
+WPU                               00000095
+WPU0                              00000000
+WPU1                              00000001
+WPU2                              00000002
+WPU4                              00000004
+WPU5                              00000005
+WR                                00000001
+WREN                              00000002
+WRERR                             00000003
+W_TEMP                            00000020
+Z                                 00000002
+_BODEN_OFF                        00003FBF
+_BODEN_ON                         00003FFF
+_BOREN_OFF                        00003FBF
+_BOREN_ON                         00003FFF
+_CONFIG                           00002007
+_CPD_OFF                          00003FFF
+_CPD_ON                           00003EFF
+_CP_OFF                           00003FFF
+_CP_ON                            00003F7F
+_DEVID1                           00002006
+_EC_OSC                           00003FFB
+_EXTRC_OSC_CLKOUT                 00003FFF
+_EXTRC_OSC_NOCLKOUT               00003FFE
+_FOSC_EC                          00003FFB
+_FOSC_EXTRCCLK                    00003FFF
+_FOSC_EXTRCIO                     00003FFE
+_FOSC_HS                          00003FFA
+_FOSC_INTRCCLK                    00003FFD
+_FOSC_INTRCIO                     00003FFC
+_FOSC_LP                          00003FF8
+_FOSC_XT                          00003FF9
+_HS_OSC                           00003FFA
+_IDLOC0                           00002000
+_IDLOC1                           00002001
+_IDLOC2                           00002002
+_IDLOC3                           00002003
+_INTRC_OSC_CLKOUT                 00003FFD
+MPASM 5.77  /HOME/ALEXANDRE/MPLABXPROJECTS/A   8-6-2018  20:46:36         PAGE 11
+
+
+SYMBOL TABLE
+  LABEL                             VALUE 
+
+_INTRC_OSC_NOCLKOUT               00003FFC
+_LP_OSC                           00003FF8
+_MCLRE_OFF                        00003FDF
+_MCLRE_ON                         00003FFF
+_PWRTE_OFF                        00003FFF
+_PWRTE_ON                         00003FEF
+_WDTE_OFF                         00003FF7
+_WDTE_ON                          00003FFF
+_WDT_OFF                          00003FF7
+_WDT_ON                           00003FFF
+_XT_OSC                           00003FF9
+__12F675                          00000001
+
+
+MEMORY USAGE MAP ('X' = Used,  '-' = Unused)
+
+0000 : X---XXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX
+0040 : XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXXXXXXX XXXXXXXXXXX-----
+2000 : -------X-------- ---------------- ---------------- ----------------
+
+All other memory blocks unused.
+
+Program Memory Words Used:   120
+Program Memory Words Free:   904
+
+
+Errors   :     0
+Warnings :     0 reported,     0 suppressed
+Messages :     9 reported,     0 suppressed
+
+

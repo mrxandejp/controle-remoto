@@ -1,0 +1,9 @@
+Message[302] /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM 132 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM 133 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM 135 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM 139 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[305] /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM 180 : Using default destination of 1 (file).
+Message[305] /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM 186 : Using default destination of 1 (file).
+Message[305] /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM 190 : Using default destination of 1 (file).
+Message[305] /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM 199 : Using default destination of 1 (file).
+Message[305] /home/alexandre/MPLABXProjects/Av1_Atividade3.X/Vazio.ASM 225 : Using default destination of 1 (file).
